@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "512387116859",
+    "project_id": "takundatodoapp",
+    "storage_bucket": "takundatodoapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512387116859:android:2e8de5d81bf6ac8402111e",
+        "android_client_info": {
+          "package_name": "com.tjnyamatore.TakundasTodoApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSjfmp3PV6Jygr3VKiwOWY9qqXejmzRUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
