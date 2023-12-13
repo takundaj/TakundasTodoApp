@@ -22,8 +22,8 @@ export default StyleSheet.create({
     backgroundColor: "white",
     margin: size(4),
     shadowOffset: {
-      width: 0,
-      height: 0,
+      width: 0.5,
+      height: 1,
     },
     shadowOpacity: 0.8,
     shadowRadius: 2,

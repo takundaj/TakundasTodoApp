@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should match snapshot 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "backgroundColor": "white",
+      "borderRadius": 8,
+      "height": 150,
+      "margin": 16,
+      "opacity": 1,
+      "padding": 16,
+      "shadowOffset": {
+        "height": 1,
+        "width": 0.5,
+      },
+      "shadowOpacity": 0.8,
+      "shadowRadius": 2,
+      "width": 288.46153846153845,
+    }
+  }
+  testID="group-card-container"
+>
+  <View
+    style={
+      [
+        {
+          "borderLeftWidth": 4,
+          "flex": 1,
+          "justifyContent": "space-between",
+          "paddingBottom": 8,
+          "paddingHorizontal": 16,
+        },
+        {
+          "borderColor": "red",
+        },
+      ]
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      selectable={false}
+      style={
+        [
+          {
+            "color": "red",
+            "fontSize": 32,
+          },
+          undefined,
+          {
+            "fontFamily": "ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          {},
+        ]
+      }
+    >
+      
+    </Text>
+    <View>
+      <Text
+        style={
+          {
+            "fontSize": 16,
+            "marginBottom": 4,
+          }
+        }
+      >
+        dummyTitle
+      </Text>
+      <Text
+        style={
+          {
+            "color": "grey",
+          }
+        }
+      >
+        5
+         Tasks
+      </Text>
+    </View>
+  </View>
+</View>
+`;

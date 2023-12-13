@@ -12,6 +12,7 @@ import styles from "./todoItem.styles";
 type Props = {
   title?: string;
   isChecked: boolean;
+  createdAt: FirebaseFirestoreTypes.Timestamp;
   onCompleteTodo: (newTodo: Todo) => void;
   todos?: FirebaseFirestoreTypes.DocumentData[];
   deleteTodo: () => void;
@@ -28,6 +29,7 @@ const TodoItem = ({
   title,
   groupId,
   isChecked,
+  createdAt,
   onCompleteTodo,
   todos,
   deleteTodo,
@@ -56,6 +58,7 @@ const TodoItem = ({
   return (
     <Swipeable
       ref={swipeableRef}
+      testID="todo-item-container"
       renderRightActions={() => (
         <TouchableOpacity
           style={styles.swipeActionRight}
@@ -80,11 +83,18 @@ const TodoItem = ({
         <Text>{title}</Text>
         <TouchableOpacity
           onPress={() =>
-            title ? onCompleteTodo({ title: title, isDone: !isChecked }) : null
+            title
+              ? onCompleteTodo({
+                  title: title,
+                  isDone: !isChecked,
+                  createdAt: createdAt.toDate(),
+                })
+              : null
           }
+          testID="todo-item-icon"
         >
           <Ionicons
-            name={isChecked ? "checkmark-circle" : "checkmark-circle"}
+            name={"checkmark-circle"}
             size={30}
             color={isChecked ? color || "turquoise" : "lightgrey"}
           />

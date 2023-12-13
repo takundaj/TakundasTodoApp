@@ -4,9 +4,7 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../types/navigationTypes";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import firestore, {
-  FirebaseFirestoreTypes,
-} from "@react-native-firebase/firestore";
+import firestore from "@react-native-firebase/firestore";
 import { groupColors } from "../../constants/colors";
 import CustomButton from "../../components/CustomButtons";
 import ColorRadioButtons from "../../components/ColorRadioButtons";
@@ -21,7 +19,7 @@ type GroupModalNavigationProp = NativeStackNavigationProp<
 
 type GroupModalRouteProp = RouteProp<StackParamList, "GroupModal">;
 
-const GroupModal = (props: Props) => {
+const GroupModal = () => {
   const colors = Object.values(groupColors);
   const navigation = useNavigation<GroupModalNavigationProp>();
   const route = useRoute<GroupModalRouteProp>();
@@ -77,7 +75,7 @@ const GroupModal = (props: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="group-modal-container">
       <View
         style={[
           styles.innerContanier,
@@ -89,7 +87,7 @@ const GroupModal = (props: Props) => {
           <TextInput value={inputValue} onChangeText={setInputValue} />
         </View>
         <ColorRadioButtons
-          groupColor={colors}
+          groupColors={colors}
           selectedColor={selectedColor}
           setSelectedColor={setSelectedColor}
         />

@@ -23,4 +23,21 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     paddingHorizontal: size(2),
   },
+  addGroupButton: {
+    position: "absolute",
+    bottom: 40,
+    right: 40,
+    backgroundColor: "turquoise",
+    width: 64,
+    height: 64,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    shadowOffset: {
+      width: 0.5,
+      height: 1,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+  },
 });

@@ -43,6 +43,7 @@ const GroupCard = ({ title, numberOfTodos, groupId, groupColor }: Props) => {
           groupId,
         })
       }
+      testID="group-card-container"
     >
       <View
         style={[

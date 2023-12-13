@@ -54,7 +54,7 @@ const GroupsScreen = (props: Props) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="group-screen-container">
       <ScrollView>
         {/* header */}
         <View style={styles.header}>
@@ -78,17 +78,7 @@ const GroupsScreen = (props: Props) => {
         </View>
       </ScrollView>
       <TouchableOpacity
-        style={{
-          position: "absolute",
-          bottom: 40,
-          right: 40,
-          backgroundColor: "turquoise",
-          width: 64,
-          height: 64,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 50,
-        }}
+        style={styles.addGroupButton}
         onPress={() => navigation.navigate("AddGroupScreen")}
       >
         <Ionicons name={"add"} size={40} color={"white"} />

@@ -3,7 +3,7 @@ export const groupColors = {
   YELLOW: "yellow",
   BLUE: "blue",
   VIOLET: "violet",
-  EMERALD: "emerald",
+  EMERALD: "green",
   ORANGE: "orange",
   LIGHTGREY: "lightgrey",
   BLACK: "black",

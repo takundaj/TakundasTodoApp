@@ -21,8 +21,7 @@ import { StackParamList } from "../../types/navigationTypes";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TodoItem from "../../components/TodoItem";
 import { Todo } from "../../types/data";
-import { sortByTitle } from "../../utils/helpers";
-import { Gesture } from "react-native-gesture-handler";
+import { sortByDate } from "../../utils/helpers";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "./todoScreen.style";
@@ -36,28 +35,30 @@ type TodosScreenRouteProp = RouteProp<StackParamList, "TodosScreen">;
 const TodosScreen = () => {
   const navigation = useNavigation<TodoScreenNavigationProp>();
   const route = useRoute<TodosScreenRouteProp>();
-
   const [todos, setTodos] = useState<
     FirebaseFirestoreTypes.DocumentData[] | undefined
   >([]);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<TextInput>(null);
-  const pan = Gesture.Pan();
+  const { groupId, groupTitle, groupColor } = route.params;
 
   const completeTodo = (newTodo: Todo) => {
     let newTodosArray = todos?.filter((todo) => todo.title !== newTodo.title);
 
+    let oldTodo = todos?.filter((todo) => todo.title === newTodo.title)?.[0];
+
     newTodosArray?.push({
-      title: newTodo.title,
-      isDone: newTodo.isDone,
+      title: newTodo?.title,
+      isDone: newTodo?.isDone,
+      createdAt: newTodo?.createdAt,
     });
 
     // update firestore record to reflect completed todo
     firestore()
       .collection("TodoGroups")
-      .doc(route.params.groupId)
+      .doc(groupId)
       .update({
-        todos: sortByTitle(newTodosArray),
+        todos: newTodosArray,
       })
       .then(() => {
         console.log("User updated!", newTodo);
@@ -74,9 +75,9 @@ const TodosScreen = () => {
     if (todos && newTodoTitle) {
       firestore()
         .collection("TodoGroups")
-        .doc(route.params.groupId)
+        .doc(groupId)
         .update({
-          todos: sortByTitle([
+          todos: sortByDate([
             ...todos,
             { title: newTodoTitle, isDone: false, createdAt: new Date() },
           ]),
@@ -94,9 +95,9 @@ const TodosScreen = () => {
 
     firestore()
       .collection("TodoGroups")
-      .doc(route.params.groupId)
+      .doc(groupId)
       .update({
-        todos: sortByTitle(newTodosArray),
+        todos: sortByDate(newTodosArray),
       })
       .then(() => {
         console.log(`${todo.title} - has been deleted updated!`);
@@ -108,10 +109,10 @@ const TodosScreen = () => {
     // Set up listener for Todos
     const subscriber = firestore()
       .collection("TodoGroups")
-      .doc(route.params.groupId)
+      .doc(groupId)
       .onSnapshot(
         (documentSnapshot) => {
-          setTodos(sortByTitle(documentSnapshot?.data()?.todos));
+          setTodos(sortByDate(documentSnapshot?.data()?.todos));
         },
         (err) => {
           console.log("Failed to fetch todos", err);
@@ -126,6 +127,7 @@ const TodosScreen = () => {
     <KeyboardAvoidingView
       style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      testID="todos-container"
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.safeArea}>
@@ -133,7 +135,7 @@ const TodosScreen = () => {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons name="chevron-back" size={32} />
             </TouchableOpacity>
-            <Text style={styles.title}>{route.params.groupTitle}</Text>
+            <Text style={styles.title}>{groupTitle}</Text>
             <Text style={styles.progressText}>{`${
               todos?.filter((todo) => todo.isDone).length
             } / ${todos?.length}`}</Text>
@@ -141,15 +143,16 @@ const TodosScreen = () => {
           {todos?.length !== 0 ? (
             <FlatList
               style={styles.list}
-              data={sortByTitle(todos)}
+              data={sortByDate(todos)}
               renderItem={({ item }) => (
                 <TodoItem
                   title={item.title}
                   isChecked={item.isDone}
+                  createdAt={item.createdAt}
                   onCompleteTodo={completeTodo}
                   todos={todos}
-                  groupId={route.params.groupId}
-                  color={route.params.groupColor}
+                  groupId={groupId}
+                  color={groupColor}
                   deleteTodo={() => deleteTodo(item)}
                 />
               )}
@@ -180,7 +183,7 @@ const TodosScreen = () => {
             <TouchableOpacity
               style={[
                 styles.submit,
-                { backgroundColor: route.params.groupColor || "turquoise" },
+                { backgroundColor: groupColor || "turquoise" },
               ]}
               onPress={() => addTodo(inputValue)}
               disabled={inputValue.trim() === ""}

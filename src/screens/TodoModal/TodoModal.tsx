@@ -7,7 +7,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import firestore, {
   FirebaseFirestoreTypes,
 } from "@react-native-firebase/firestore";
-import { sortByTitle } from "../../utils/helpers";
+import { sortByDate } from "../../utils/helpers";
 import CustomButton from "../../components/CustomButtons";
 import styles from "./todoModal.style";
 
@@ -38,7 +38,7 @@ const TodoModal = () => {
         .collection("TodoGroups")
         .doc(route.params.groupId)
         .update({
-          todos: sortByTitle(newArray),
+          todos: sortByDate(newArray),
         })
         .then(() => {
           console.log(`${newTodo} - Group updated!`);
@@ -51,7 +51,7 @@ const TodoModal = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="todo-modal-container">
       <View
         style={[styles.header, { height: Dimensions.get("screen").height / 3 }]}
       >

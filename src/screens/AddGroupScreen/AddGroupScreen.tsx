@@ -1,5 +1,5 @@
 import { View, Text, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import firestore from "@react-native-firebase/firestore";
 import { groupColors } from "../../constants/colors";
@@ -18,9 +18,15 @@ type AddGroupScreenNavigationProps = NativeStackNavigationProp<
 const AddGroupScreen = () => {
   const [newGroupTitle, setNewGroupTitle] = useState("");
   const [selectedColor, setSelectedColor] = useState(0);
+  const [disabled, setDisable] = useState(false);
+  const [showError, setShowError] = useState(false);
   const colorsList = Object.values(groupColors);
 
   const navigation = useNavigation<AddGroupScreenNavigationProps>();
+
+  useEffect(() => {
+    setDisable(newGroupTitle.trim() === "");
+  }, [newGroupTitle]);
 
   const createNewGroup = () => {
     firestore()
@@ -41,7 +47,7 @@ const AddGroupScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} testID="add-group-container">
       {/* header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Add Group</Text>
@@ -54,17 +60,21 @@ const AddGroupScreen = () => {
           value={newGroupTitle}
           onChangeText={setNewGroupTitle}
         />
+        {showError ? (
+          <Text style={{ color: "red", fontWeight: "bold" }}>
+            Oops! something went wrong.
+          </Text>
+        ) : null}
         {/* Icon Radio Buttons */}
         <ColorRadioButtons
-          groupColor={colorsList}
+          groupColors={colorsList}
           selectedColor={selectedColor}
           setSelectedColor={setSelectedColor}
         />
         {/* Color Radio Buttons */}
         <CustomButton
-          onPress={() => createNewGroup()}
+          onPress={() => (disabled ? setShowError(true) : createNewGroup())}
           label={"Add group"}
-          disabled={newGroupTitle.trim() === ""}
           type={"primary"}
         />
 

@@ -14,10 +14,13 @@ const CustomButton: React.FC<Props> = ({ label, onPress, disabled, type }) => {
     <TouchableOpacity
       style={[
         styles.container,
-        { backgroundColor: type == "primary" ? "turquoise" : "grey" },
+        {
+          backgroundColor: type == "primary" ? "turquoise" : "lightgrey",
+        },
       ]}
       onPress={onPress}
       disabled={disabled}
+      testID="custom-button"
     >
       <Text style={styles.text}>{label}</Text>
     </TouchableOpacity>
